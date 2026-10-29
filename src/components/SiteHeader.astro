@@ -2,6 +2,7 @@
 import { ArrowRight, ChevronDown, ChevronRight, Mail, Menu, Phone, Search, X } from '@lucide/astro'
 import Brand from './Brand.astro'
 import { defaultServices, serviceCategories, siteSettings, phoneHref, whatsappHref, courierCompanies } from '@/data/site'
+import content from '@/data/content.json'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,45 +13,62 @@ import {
   navigationMenuTriggerStyle,
 } from '@/ui/navigation-menu'
 
-const navItems = [
-  { label: 'Ana Sayfa', href: '/' },
-  {
-    label: 'KVKK',
-    href: '/gizlilik-ve-kvkk-politikasi',
-    children: [
-      ['Gizlilik ve KVKK Politikası', '/gizlilik-ve-kvkk-politikasi'],
-      ['İlgili Kişi Başvurusu', '/ilgili-kisi-basvurusu'],
-      ['Çerez Politikası', '/cerez-politikasi'],
-      ['Web Sitesi Ziyaretçi Aydınlatma Metni', '/web-sitesi-ziyaretci-aydinlatma-metni'],
-    ],
-  },
-  {
-    label: 'Kurumsal',
-    href: '/hakkimizda',
-    children: [
-      ['Hakkımızda', '/hakkimizda'],
-      ['Markalarımız', '/markalarimiz'],
-      ['Belgelerimiz', '/belgelerimiz'],
-      ['İş Sağlığı ve Güvenliği Politikası', '/is-sagligi-ve-guvenligi-politikasi'],
-      ['Çevre Politikası', '/cevre-politikasi'],
-      ['Kalite Politikası', '/kalite-politikasi'],
-      ['Bilgi Güvenliği Politikası', '/bilgi-guvenligi-politikasi'],
-      ['Etik İlkelerimiz', '/etik-ilkelerimiz'],
-    ],
-  },
-  { label: 'Hizmetlerimiz', href: '/arac-proje-hizmetlerimiz', variant: 'services' },
-  { label: 'Kurye Firmaları', href: '/kurye-firmalari', variant: 'couriers' },
-  {
-    label: 'Markalar',
-    href: '/motosiklet-markalari',
-    children: [
-      ['Motosiklet Markaları', '/motosiklet-markalari'],
-      ['Araba Markaları', '/araba-markalari'],
-    ],
-  },
-  { label: 'Blog', href: '/blog' },
-  { label: 'İletişim', href: '/iletisim' },
-]
+const automotive = content.automotive === true
+
+// Menü içerikten türetilir: araç işletmelerinde kurye/marka bölümleri,
+// diğer sektörlerde sade bir menü (Hizmetler · Kurumsal · Blog · İletişim).
+const navItems = automotive
+  ? [
+      { label: 'Ana Sayfa', href: '/' },
+      {
+        label: 'KVKK',
+        href: '/gizlilik-ve-kvkk-politikasi',
+        children: [
+          ['Gizlilik ve KVKK Politikası', '/gizlilik-ve-kvkk-politikasi'],
+          ['İlgili Kişi Başvurusu', '/ilgili-kisi-basvurusu'],
+          ['Çerez Politikası', '/cerez-politikasi'],
+          ['Web Sitesi Ziyaretçi Aydınlatma Metni', '/web-sitesi-ziyaretci-aydinlatma-metni'],
+        ],
+      },
+      {
+        label: 'Kurumsal',
+        href: '/hakkimizda',
+        children: [
+          ['Hakkımızda', '/hakkimizda'],
+          ['Markalarımız', '/markalarimiz'],
+          ['Belgelerimiz', '/belgelerimiz'],
+          ['Kalite Politikası', '/kalite-politikasi'],
+        ],
+      },
+      { label: 'Hizmetlerimiz', href: '/hizmetler', variant: 'services' },
+      { label: 'Kurye Firmaları', href: '/kurye-firmalari', variant: 'couriers' },
+      {
+        label: 'Markalar',
+        href: '/motosiklet-markalari',
+        children: [
+          ['Motosiklet Markaları', '/motosiklet-markalari'],
+          ['Araba Markaları', '/araba-markalari'],
+        ],
+      },
+      { label: 'Blog', href: '/blog' },
+      { label: 'İletişim', href: '/iletisim' },
+    ]
+  : [
+      { label: 'Ana Sayfa', href: '/' },
+      {
+        label: 'Kurumsal',
+        href: '/hakkimizda',
+        children: [
+          ['Hakkımızda', '/hakkimizda'],
+          ['Belgelerimiz', '/belgelerimiz'],
+          ['Gizlilik ve KVKK', '/gizlilik-ve-kvkk-politikasi'],
+          ['Çerez Politikası', '/cerez-politikasi'],
+        ],
+      },
+      { label: 'Hizmetlerimiz', href: '/hizmetler', variant: 'services' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'İletişim', href: '/iletisim' },
+    ]
 
 const featuredCourierNames = ['Getir', 'Yemek Sepeti', 'Trendyol', 'Trendyol Go', 'Tıkla Gelsin', 'Vigo', 'Uber Eats', 'Migros Kurye', "Domino's", 'Paket Taxi', 'Jetbee', 'Moto Kurye']
 const headerCouriers = featuredCourierNames.map((name) => {
@@ -63,16 +81,18 @@ const serviceGroups = serviceCategories.map((category) => ({
   services: defaultServices.filter((service) => service.category === category).sort((a, b) => a.order - b.order),
 }))
 
-const serviceHubs = [
-  { label: 'Araç Proje Hizmetleri', href: '/arac-proje-hizmetlerimiz', categories: ['Araç Projeleri', 'Dönüşüm', 'Söküm', 'Motosiklet', 'Belgelendirme'] },
-  { label: 'Araç Tadilat Çözümleri', href: '/arac-tadilat-cozumleri', categories: ['LPG Söküm Sistemi Tadilatı', 'Motosiklet Taşıma Kutusu Tadilatı'] },
-  { label: 'Engelli Aparatları Çözümleri', href: '/engelli-aparatlari-cozumleri', categories: ['Engelli Aparatları Çözümleri'] },
-  { label: 'Firma Belgelendirme Hizmetlerimiz', href: '/firma-belgelendirme-hizmetlerimiz', categories: ['Firma Belgelendirme Hizmetlerimiz'] },
-  { label: 'Kamyon & Kamyonet Kasa Projeleri', href: '/kamyon-kamyonet-kasa-projeleri', categories: ['Kamyon & Kamyonet Kasa Projeleri'] },
-  { label: 'Kamyoneti Otomobile Çevirme', href: '/kamyoneti-otomobile-cevirme', categories: ['Kamyoneti Otomobile Çevirme'] },
-  { label: 'Tescil ve Müşavirlik', href: '/tescil-ve-musavirlik', categories: ['Tescil ve Müşavirlik'] },
-]
+// Tek seviyeli hizmet menüsü: her kategori bir başlık, altında hizmetler.
+const serviceHubs = automotive
+  ? [
+      { label: 'Araç Proje Hizmetleri', href: '/hizmetler', categories: serviceCategories.slice(0, 5) },
+      { label: 'Tadilat ve Dönüşüm', href: '/hizmetler', categories: serviceCategories.slice(5) },
+    ]
+  : [{ label: `${siteSettings.brandName} Hizmetleri`, href: '/hizmetler', categories: [...serviceCategories] }]
 const hubHrefs = serviceHubs.map((h) => h.href)
+
+const topbarText = automotive
+  ? 'Araç projelerinde güvenilir mühendislik ve uygulama desteği.'
+  : `${siteSettings.brandName} · ${siteSettings.location} · ${siteSettings.workHours}`
 
 const isActive = (href: string) => Astro.url.pathname === href || (href !== '/' && Astro.url.pathname.startsWith(`${href}/`))
 ---
@@ -80,7 +100,7 @@ const isActive = (href: string) => Astro.url.pathname === href || (href !== '/' 
 <header id="site-header" class="sticky top-0 z-50 bg-white group-data-[sticky=true]/header:bg-transparent transition-all duration-300 group/header">
   <div class="hidden lg:block bg-[#111111] text-white border-b border-white/10 group-data-[sticky=true]/header:hidden transition-all duration-200">
     <div class="mx-auto flex min-h-9 w-[95vw] items-center justify-between text-xs px-2">
-      <span class="text-white/70 font-medium">Araç projelerinde güvenilir mühendislik ve uygulama desteği.</span>
+      <span class="text-white/70 font-medium">{topbarText}</span>
       <div class="flex items-stretch h-9">
         <a href={phoneHref} class="inline-flex items-center gap-2 border-l border-white/10 px-4 font-bold text-white/90 hover:text-primary transition-colors text-[11px]"><Phone size={13} /> {siteSettings.phone}</a>
         <a href={`mailto:${siteSettings.email}`} class="inline-flex items-center gap-2 border-l border-white/10 px-4 font-bold text-white/90 hover:text-primary transition-colors text-[11px]"><Mail size={13} /> {siteSettings.email}</a>
@@ -103,7 +123,7 @@ const isActive = (href: string) => Astro.url.pathname === href || (href !== '/' 
                   </NavigationMenuTrigger>
                   <NavigationMenuContent align="center" class="w-80 bg-white shadow-2xl border border-neutral-200">
                     <div class="grid gap-1 p-2">
-                      <span class="px-3 pb-1 pt-2 text-xs font-black uppercase tracking-[.18em] text-primary">Hizmetlerimiz</span>
+                      <span class="px-3 pb-1 pt-2 text-xs font-black uppercase tracking-[.18em] text-primary">{siteSettings.brandName}</span>
                       {serviceHubs.map((hub) => (
                         <div class="group/sub relative">
                           <NavigationMenuLink href={hub.href} class="flex items-center justify-between rounded-sm px-3 py-2.5 text-sm font-black text-black transition-colors hover:bg-primary hover:!text-white">
