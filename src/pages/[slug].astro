@@ -28,7 +28,7 @@ const title = props.kind === 'service' ? props.service.title : props.kind === 'c
 const description = props.kind === 'service' ? props.service.summary : props.kind === 'courier' ? (courierJson ? `${courierJson.brand} kuryelerinde kullanılan ${courierJson.equipment} için motosiklet çanta ruhsata işletme sürecini, teknik değerlendirme adımlarını ve sık sorulan soruları inceleyin.` : `${props.courier.name} motosiklet çanta ve taşıma kutusu ruhsata işletme süreci.`) : props.post.data.description
 ---
 
-<Layout title={`${title} | Yeni Site`} description={description}>
+<Layout title={`${title} | ${siteSettings.brandName}`} description={description}>
   {props.kind === 'service' && (props.hasArticle ? <ServiceArticleDetail service={props.service} /> : <ServiceDetail service={props.service} />)}
   {props.kind === 'courier' && <CourierDetail courier={props.courier} />}
   {props.kind === 'post' && <PostDetail post={props.post} />}

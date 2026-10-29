@@ -7,4 +7,4 @@ export function getStaticPaths() { return defaultServices.map((service) => ({ pa
 const { service } = Astro.props
 ---
 
-<Layout title={`${service.title} | Yeni Site`} description={service.summary}><ServiceDetail service={service} /></Layout>
+<Layout title={`${service.title} | ${siteSettings.brandName}`} description={service.summary}><ServiceDetail service={service} /></Layout>

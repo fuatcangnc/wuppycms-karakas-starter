@@ -35,7 +35,7 @@ const quickLinks = [
 <footer class="site-footer">
   <div class="shell footer-grid">
     <section class="footer-brand" aria-labelledby="footer-brand-title">
-      <h2 class="sr-only" id="footer-brand-title">Yeni Site</h2>
+      <h2 class="sr-only" id="footer-brand-title">{siteSettings.brandName}</h2>
       <Brand inverse />
       <p>{content.heroDescription || siteSettings.heroDescription}</p>
       <ul class="trust-list" aria-label="Hizmet kapsamı">{trustItems.map((item) => <li>{item}</li>)}</ul>
@@ -57,5 +57,5 @@ const quickLinks = [
     <nav class="footer-column" aria-labelledby="footer-corporate-title"><h3 id="footer-corporate-title">Kurumsal</h3><ul>{quickLinks.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul></nav>
     <section class="footer-column footer-contact" aria-labelledby="footer-contact-title"><h3 id="footer-contact-title">İletişim ve ofis</h3><address><a href={phoneHref}><Icon name="lucide:phone" size={16} /><span><small>Telefon</small>{siteSettings.phone}</span></a><a href={`mailto:${siteSettings.email}`}><Icon name="lucide:mail" size={16} /><span><small>E-posta</small>{siteSettings.email}</span></a><a href={mapHref} target="_blank" rel="noreferrer"><Icon name="lucide:map-pin" size={16} /><span><small>Ofis</small>{siteSettings.location}</span></a><div><Icon name="lucide:clock-3" size={16} /><span><small>Çalışma saatleri</small>{siteSettings.workHours}<small>Pazar: Kapalı</small></span></div></address></section>
   </div>
-  <div class="shell footer-bottom"><p>© {new Date().getFullYear()} Yeni Site. Tüm hakları saklıdır.</p><nav aria-label="Yasal bağlantılar"><a href="/cerez-politikasi">Çerez Politikası</a><a href="/gizlilik-ve-kvkk-politikasi">Gizlilik ve KVKK</a></nav></div>
+  <div class="shell footer-bottom"><p>© {new Date().getFullYear()} {siteSettings.brandName}. Tüm hakları saklıdır.</p><nav aria-label="Yasal bağlantılar"><a href="/cerez-politikasi">Çerez Politikası</a><a href="/gizlilik-ve-kvkk-politikasi">Gizlilik ve KVKK</a></nav></div>
 </footer>
