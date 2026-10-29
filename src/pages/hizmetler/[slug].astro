@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import ServiceDetail from '@/components/ServiceDetail.astro'
-import { defaultServices } from '@/data/site'
+import { defaultServices, siteSettings } from '@/data/site'
 
 export function getStaticPaths() { return defaultServices.map((service) => ({ params: { slug: service.slug }, props: { service } })) }
 const { service } = Astro.props

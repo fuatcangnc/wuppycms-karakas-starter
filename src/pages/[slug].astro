@@ -5,7 +5,7 @@ import CourierDetail from '@/components/CourierDetail.astro'
 import PostDetail from '@/components/PostDetail.astro'
 import ServiceDetail from '@/components/ServiceDetail.astro'
 import ServiceArticleDetail from '@/components/ServiceArticleDetail.astro'
-import { courierCompanies, defaultServices } from '@/data/site'
+import { courierCompanies, defaultServices, siteSettings } from '@/data/site'
 
 export async function getStaticPaths() {
   const articleModules = import.meta.glob('../content/service-articles/*.json', { eager: true })
